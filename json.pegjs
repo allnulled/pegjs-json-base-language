@@ -51,7 +51,7 @@ String
     }
 
 DoubleQuotedString
-  = chars:(([^"\\] / "\\") .)* { return chars.join(""); }
+  = chars:((!('"' / "\\")) .)* { return chars.join(""); }
 
 Number
   = value:$("-"? [0-9]+ ("." [0-9]+)? ([eE] [-+]? [0-9]+)?) {

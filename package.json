@@ -4,7 +4,8 @@
   "description": "Base de sintaxis para JSON en PEGjs.",
   "main": "json.js",
   "scripts": {
-    "test": "node test.js"
+    "build": "pegjs json.pegjs",
+    "test": "npx mocha test.js"
   },
   "keywords": [],
   "author": "allnulled",
