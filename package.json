@@ -1,0 +1,12 @@
+{
+  "name": "pegjs-json-base-language",
+  "version": "1.0.0",
+  "description": "Base de sintaxis para JSON en PEGjs.",
+  "main": "json.js",
+  "scripts": {
+    "test": "node test.js"
+  },
+  "keywords": [],
+  "author": "allnulled",
+  "license": "WTFPL"
+}
