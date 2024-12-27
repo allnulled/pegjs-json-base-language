@@ -8,7 +8,22 @@
 Start
   = value:Value { return value; }
 
-Value
+// Value = tp:Type_def? _ vl:Value_untyped { return tp ? { $type: tp, value: vl } : vl }
+
+Value = Value_untyped
+
+Type_def = "@" p:Js_path { return p }
+
+Js_path = 
+  first:Js_noun
+  others:Js_noun_predotted*
+    { return text() || [first].concat(others || []) }
+
+Js_noun = [A-Za-z_$] [A-Za-z0-9_$]* { return text() }
+
+Js_noun_predotted = ("." / "/") n:Js_noun { return n }
+
+Value_untyped
   = Object
   / Array
   / String
@@ -24,7 +39,9 @@ Object
 MemberList
   = head:Member tail:(_ "," _ Member)* {
       const result = { [head.key]: head.value };
-      tail.forEach(({ key, value }) => {
+      tail.forEach((item) => {
+        const subitem = item[3];
+        const { key, value } = subitem;
         result[key] = value;
       });
       return result;
@@ -47,11 +64,11 @@ ElementList
 
 String
   = '"' chars:DoubleQuotedString '"' {
-      return text();
+      return chars;
     }
 
 DoubleQuotedString
-  = chars:((!('"' / "\\")) .)* { return chars.join(""); }
+  = chars:('\\"' / ((!'"') .))* { return text(); }
 
 Number
   = value:$("-"? [0-9]+ ("." [0-9]+)? ([eE] [-+]? [0-9]+)?) {
